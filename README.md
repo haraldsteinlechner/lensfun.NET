@@ -1,6 +1,6 @@
 # lensfun.NET
 
-lightweigt wrapper for the lensfun library: https://lensfun.github.io/
+(incomplete/wip) lightweigt wrapper for the lensfun library: https://lensfun.github.io/
 
 ```
 let lf = LensFun("./db_files")
