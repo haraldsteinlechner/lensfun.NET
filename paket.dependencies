@@ -6,6 +6,8 @@ nuget FSharp.Core           >= 4.6.2 lowest_matching:true
 nuget OpenCvSharp4          ~> 4.2.0
 nuget OpenCvSharp4.Windows  ~> 4.2.0
 nuget ExifLib.Standard      ~> 1.7.0
+
+nuget Magick.NET-Q16-HDRI-AnyCPU ~> 7.15.1
                                             
 
 group Build

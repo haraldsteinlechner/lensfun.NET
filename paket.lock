@@ -3,6 +3,7 @@ NUGET
   remote: https://api.nuget.org/v3/index.json
     ExifLib.Standard (1.7)
     FSharp.Core (4.6.2)
+    Magick.NET-Q16-HDRI-AnyCPU (7.15.1)
     Microsoft.NETCore.Platforms (3.1) - restriction: || (&& (== net471) (>= netcoreapp2.0)) (&& (== net471) (>= netcoreapp2.1)) (== netcoreapp3.0) (&& (== netstandard2.0) (>= netcoreapp2.0))
     Microsoft.Win32.SystemEvents (4.7) - restriction: || (&& (== net471) (>= netcoreapp2.0)) (&& (== net471) (>= netcoreapp2.1)) (== netcoreapp3.0) (&& (== netstandard2.0) (>= netcoreapp2.0))
       Microsoft.NETCore.Platforms (>= 3.1) - restriction: || (&& (== net471) (>= netcoreapp2.0)) (== netcoreapp3.0) (&& (== netstandard2.0) (>= netcoreapp2.0))

@@ -160,7 +160,9 @@ module LensFun =
         let lens : IntPtr = NativeInt.read (nativeint lenses)
         
         let modifier = Native.lf_modifier_new(lens,cam.CropFactor,width,height)
-        let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U8, float32 p.focal_len, float32 p.aperture,float32 p.distance,0.0f,lfLensType.LF_RECTILINEAR,~~~0,false)
+        //let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U8, float32 p.focal_len, float32 p.aperture,float32 p.distance,0.0f,lfLensType.LF_RECTILINEAR,~~~0,false)
+        let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U32, float32 p.focal_len, float32 p.aperture,float32 p.distance,0.0f,lfLensType.LF_RECTILINEAR,~~~0,false)
+
 
         let remap = Array.zeroCreate (width * height * 2)
         let ok = Native.lf_modifier_apply_geometry_distortion(modifier,0.0f,0.0f,width,height,remap)
