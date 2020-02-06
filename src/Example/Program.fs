@@ -30,7 +30,7 @@ module Exif =
             distance   = 10.0
         }
 
-let undistort (db : IntPtr) (remap : float32[]) (camera : Params) (img : Mat)  = 
+let undistort (remap : float32[])  (img : Mat)  = 
     let size = img.Size()
     let remapMat = new Mat(size.Height, size.Width, MatType.CV_32FC2, remap)
 
@@ -45,7 +45,7 @@ let undistortJpg (filename : string) (undistored : string) =
     let img = Cv2.ImRead filename
     let width,height = img.Size(1), img.Size(0)
     let remap,_ = LensFun.createModifier db cameraParameters width height 
-    let outimg = undistort db remap cameraParameters img
+    let outimg = undistort remap img
 
     Cv2.ImWrite(undistored, outimg) |> printfn "ok: %A"
 
