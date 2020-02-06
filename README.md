@@ -9,3 +9,5 @@ let modifier = lf.CreateModifier ps
 let remapArray = modifier.ComputeMap(width,height)
 // use opencv or whatever to remap the images....
 ```
+
+full undist example can be found here: https://github.com/haraldsteinlechner/lensfun.NET/blob/master/src/Example/Program.fs
