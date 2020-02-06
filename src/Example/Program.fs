@@ -44,7 +44,7 @@ let undistortJpg (filename : string) (undistored : string) =
     let cameraParameters = Exif.fileToParams filename
     let img = Cv2.ImRead filename
     let width,height = img.Size(1), img.Size(0)
-    let remap,_ = LensFun.createModifier db width height cameraParameters
+    let remap,_ = LensFun.createModifier db cameraParameters width height 
     let outimg = undistort db remap cameraParameters img
 
     Cv2.ImWrite(undistored, outimg) |> printfn "ok: %A"
@@ -52,6 +52,7 @@ let undistortJpg (filename : string) (undistored : string) =
 
 [<EntryPoint;STAThread>]
 let main argv =
-    
+    LensFun.downloadLensFunFromWheels "." "./db_files"
+    undistortJpg @"C:\Users\hs\Downloads\IMG_4491.JPG" @"C:\Users\hs\Downloads\IMG_4491_undist.JPG"
     0
  
