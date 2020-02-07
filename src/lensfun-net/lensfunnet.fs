@@ -139,7 +139,7 @@ module LensFun =
     let initLf (dbDir : string) = 
         let db = Native.lf_db_new()
 
-        for p in Directory.EnumerateFiles("./db_files","*.xml") do
+        for p in Directory.EnumerateFiles(dbDir,"*.xml") do
             let e = Native.lf_db_load_file (db, p)
             if e <> lfError.LF_NO_ERROR then 
                 failwithf "could not load: %s" p

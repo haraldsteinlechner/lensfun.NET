@@ -18,8 +18,8 @@ module Exif =
         let lens_maker = if ok then lens_maker else cam_maker
         let ok,lens_model = reader.GetTagValue<string>(ExifTags.LensModel)
         let distance = 10.0
-        printfn "Focus distance not computed. using: %A" distance
-        if not ok then failwith "could not get lens model"
+        //printfn "Focus distance not computed. using: %A" distance
+        if not ok then printfn "could not get lens model for: %A" filename
         {
             cam_maker  = cam_maker
             cam_model  = cam_model

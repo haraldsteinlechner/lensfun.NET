@@ -26,9 +26,17 @@ let undistortJpg (filename : string) (undistored : string) =
 
 [<EntryPoint;STAThread>]
 let main argv =
+    let r = Tool.run argv
+    System.Environment.Exit r
+
+
     LensFun.downloadLensFunFromWheels "." "./db_files"
 
-    undistortJpg @"C:\Users\hs\Downloads\IMG_4491.JPG" @"C:\Users\hs\Downloads\IMG_4491_undist.JPG"
-    Raw.test @"C:\Users\hs\Pictures\H5_105\IMG_6975.CR2" @"C:\Users\hs\Pictures\H5_105\IMG_6975_undist.exr"
+    //match argv with
+    //| [|dir; filePat; mapName;|] -> 
+    //    let files = Directory.
+
+    //undistortJpg @"C:\Users\hs\Downloads\IMG_4491.JPG" @"C:\Users\hs\Downloads\IMG_4491_undist.JPG"
+    //Raw.test @"C:\Users\hs\Pictures\H5_105\IMG_6975.CR2" @"C:\Users\hs\Pictures\H5_105\IMG_6975_undist.exr"
     0
  

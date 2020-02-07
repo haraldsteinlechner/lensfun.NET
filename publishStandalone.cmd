@@ -1,0 +1,1 @@
+dotnet publish src/example/example.fsproj -o bin/publish --framework netcoreapp3.0 --runtime win10-x64 
