@@ -163,5 +163,5 @@ Target.create "Default" ignore
 
 Target.runOrDefault "Default"
 
-"Pack" ==> "Push"
+"Compile" ==> "Pack" ==> "Push"
 
