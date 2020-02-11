@@ -1,2 +1,2 @@
-### 0.0.2
-* fixes crash for types including types defined in nested classes
+### 0.0.3
+* restructured projets
