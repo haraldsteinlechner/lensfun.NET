@@ -75,7 +75,7 @@ Target.create "Pack" (fun _ ->
             WorkingDir = Environment.CurrentDirectory
             OutputPath = "bin"
             PinProjectReferences = true
-            ProjectUrl = "https://github.com/krauthaufen/Adaptify"
+            ProjectUrl = "https://github.com/haraldsteinlechner/lensfun.NET"
             Version = notes.NugetVersion
             ReleaseNotes = String.concat "\n" notes.Notes
         }
@@ -136,7 +136,7 @@ Target.create "Push" (fun _ ->
         Git.Branches.tag "." notes.NugetVersion
 
         let branch = Git.Information.getBranchName "."
-        //Git.Branches.pushBranch "." "origin" branch
+        Git.Branches.pushBranch "." "origin" branch
 
         if List.isEmpty packages then
             failwith "no packages produced"

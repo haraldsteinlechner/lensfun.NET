@@ -13,3 +13,5 @@ bin/Debug
 /.paket
 /Aardvark.log
 /bin/publish
+/.vs/lensfun-net/v16/*.suo
+/.vs/lensfun-net/DesignTimeBuild/*.dtbcache
