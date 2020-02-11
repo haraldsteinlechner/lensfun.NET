@@ -159,9 +159,11 @@ Target.create "Push" (fun _ ->
     ()
 )
 
+
+"Compile" ==> "Pack" ==> "Push"
+
+
 Target.create "Default" ignore
 
 Target.runOrDefault "Default"
-
-"Compile" ==> "Pack" ==> "Push"
 
