@@ -1,3 +1,5 @@
+all on nuget: https://www.nuget.org/packages?q=lensfunnet
+
 # lensfun.NET
 
 (incomplete/wip) lightweigt wrapper for the lensfun library: https://lensfun.github.io/
