@@ -1,3 +1,5 @@
+### 0.0.6
+* consistency
 ### 0.0.5
 * consistency
 ### 0.0.5
