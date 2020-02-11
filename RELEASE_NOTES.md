@@ -1,3 +1,5 @@
+### 0.0.7
+* fixed race condition
 ### 0.0.6
 * consistency
 ### 0.0.5
