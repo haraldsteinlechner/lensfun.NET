@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DisableImplicitFSharpCoreReference>True</DisableImplicitFSharpCoreReference>
 	<PackAsTool>true</PackAsTool>
-    <ToolCommandName>undistort</ToolCommandName>
+    <ToolCommandName>lensfunNet-undist</ToolCommandName>
 	<PackageOutputPath>..\..\bin\</PackageOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

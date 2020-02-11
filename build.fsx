@@ -81,7 +81,7 @@ Target.create "Pack" (fun _ ->
         }
     )
 
-    "src/undistort/undistort.fsproj" |> DotNet.pack (fun o -> 
+    "src/undistort/lensfunNet-undist.fsproj" |> DotNet.pack (fun o -> 
         { o with        
             NoRestore = true
             NoBuild = true
