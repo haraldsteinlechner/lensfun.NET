@@ -81,7 +81,7 @@ module Tool =
                     } 
 
 
-                Async.Start <| start writer
+                let writer = Async.StartAsTask <| start writer
                 let runners = 
                     async {
                         let! dists = Async.Parallel [for i in 0 .. 8 do yield distorter |> start] 
@@ -90,7 +90,7 @@ module Tool =
 
                 let r = 
                     if pat.Contains("%d") then
-                        pat.Replace("%d","(?<id>[0-9]*)") + "$"
+                        pat.Replace("%d","(?<id>[0-9]*)") //+ "$"
                     else pat
                 let regex = Regex r
                 let files = 
@@ -109,6 +109,7 @@ module Tool =
 
                 reader files 
                 runners.Wait()
+                writer.Wait()
                 0
             | _ -> 
                 printfn "usage: tool path searchPattern\n e.g. tool . \"IMG_%%d.JPG\" \"undist_%%d.jpg0\""
