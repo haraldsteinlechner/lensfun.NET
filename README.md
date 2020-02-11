@@ -15,7 +15,8 @@ full undist example can be found here: https://github.com/haraldsteinlechner/len
 
 # the tool
 
-```dotnet tool install --global lensfunNet-undist 
+```
+>dotnet tool install --global lensfunNet-undist 
 >lensfunnet-undist "C:\Users\hs\Pictures" "IMG_%d.JPG" "IMG_%d_undist.JPG"
 C:\Users\hs\Pictures\IMG_6975.JPG -> C:\Users\hs\Pictures\IMG_6975_undist.JPG
 ```
