@@ -33,7 +33,7 @@ module Raw =
         let width,height = img.Width, img.Height
         let remap,_ = LensFun.createModifier db cameraParameters width height 
         //use outmat = new Mat(img.Height, img.Width, MatType.CV_32FC3, resultPtr.AddrOfPinnedObject())
-        let outimg = OpenCV.undistort remap mat 
+        let outimg = OpenCV.remap remap mat 
         
         Cv2.ImWrite(undistName,outimg) |> printfn "wrote..: %A"
 

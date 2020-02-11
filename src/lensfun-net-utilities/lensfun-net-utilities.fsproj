@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>lensfun_net_tools</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
@@ -10,12 +10,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\bin\Release</OutputPath>
   </PropertyGroup>
-  <PropertyGroup>
-    <RunWorkingDirectory>$(OutputPath)\netcoreapp3.0</RunWorkingDirectory>
-  </PropertyGroup>
   <ItemGroup>
-    <None Include="paket.references" />
-    <Compile Include="lensfunnet.fs" />
+    <Compile Include="Exif.fs" />
+    <Compile Include="opencv.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lensfun-net\lensfun-net.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

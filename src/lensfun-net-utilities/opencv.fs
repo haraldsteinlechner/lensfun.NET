@@ -7,7 +7,7 @@ open OpenCvSharp
 module OpenCV = 
 
 
-    let undistort (remap : float32[])  (img : Mat)  = 
+    let remap (remap : float32[])  (img : Mat)  = 
         let size = img.Size()
         let remapMat = new Mat(size.Height, size.Width, MatType.CV_32FC2, remap)
 

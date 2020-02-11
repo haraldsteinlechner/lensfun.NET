@@ -1,0 +1,8 @@
+type project
+id lensfunNET-utilities
+authors Harald Steinlechner & Contributors
+owners Harald Steinlechner & Contributors
+projectUrl https://github.com/haraldsteinlechner/lensfun.NET
+licenseUrl http://www.apache.org/licenses/LICENSE-2.0.txt
+description
+    lightweight wrapper for the great lensfun library

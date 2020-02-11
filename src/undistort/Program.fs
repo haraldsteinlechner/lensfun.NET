@@ -1,6 +1,4 @@
-﻿namespace lensfunNet
-
-open System
+﻿open System
 open System.IO
 open lensfunNet
 open OpenCvSharp
@@ -92,7 +90,7 @@ module Tool =
 
                 let r = 
                     if pat.Contains("%d") then
-                        pat.Replace("%d","(?<id>[0-9]*)")
+                        pat.Replace("%d","(?<id>[0-9]*)") + "$"
                     else pat
                 let regex = Regex r
                 let files = 
@@ -111,9 +109,15 @@ module Tool =
 
                 reader files 
                 runners.Wait()
+                0
             | _ -> 
-                printfn "usage: tool path searchPattern\n e.g. tool . \"IMG_\%d.JPG\" \"undist_%d.jpg\""; System.Environment.Exit 1
-            
+                printfn "usage: tool path searchPattern\n e.g. tool . \"IMG_%%d.JPG\" \"undist_%%d.jpg0\""
+                1
 
-        0
+
  
+
+[<EntryPoint>]
+let main argv =
+    Tool.run argv
+
