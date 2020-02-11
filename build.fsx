@@ -136,7 +136,7 @@ Target.create "Push" (fun _ ->
         Git.Branches.tag "." notes.NugetVersion
 
         let branch = Git.Information.getBranchName "."
-        //Git.Branches.pushBranch "." "origin" branch
+        Git.Branches.pushBranch "." "origin" branch
 
         if List.isEmpty packages then
             failwith "no packages produced"
@@ -163,4 +163,5 @@ Target.create "Default" ignore
 
 Target.runOrDefault "Default"
 
+"Pack" ==> "Push"
 
