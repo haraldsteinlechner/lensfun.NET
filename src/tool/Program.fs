@@ -90,7 +90,7 @@ module Tool =
 
                 let r = 
                     if pat.Contains("%d") then
-                        pat.Replace("%d","(?<id>[0-9]*)") //+ "$"
+                        pat.Replace("%d","(?<id>[0-9]*)") + "$"
                     else pat
                 let regex = Regex r
                 let files = 
