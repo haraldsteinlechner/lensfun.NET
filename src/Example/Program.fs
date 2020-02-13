@@ -17,8 +17,8 @@ let undistortJpg (filename : string) (undistored : string) =
     let cameraParameters = Exif.fileToParams filename
     let img = Cv2.ImRead filename
     let width,height = img.Size(1), img.Size(0)
-    let remap,_ = LensFun.createModifier db cameraParameters width height 
-    let outimg = undistort remap img
+    let lensInfo = LensFun.createModifier db cameraParameters width height 
+    let outimg = undistort lensInfo.remap.Value img
 
     Cv2.ImWrite(undistored, outimg) |> printfn "ok: %A"
 

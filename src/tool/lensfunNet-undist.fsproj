@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DisableImplicitFSharpCoreReference>True</DisableImplicitFSharpCoreReference>
-	<PackAsTool>true</PackAsTool>
+    <PackAsTool>true</PackAsTool>
     <ToolCommandName>lensfunNET-undist</ToolCommandName>
-	<PackageOutputPath>..\..\bin\</PackageOutputPath>
+    <PackageOutputPath>..\..\bin\</PackageOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
@@ -15,6 +15,7 @@
     <OutputPath>..\..\bin\Release</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

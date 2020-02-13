@@ -6,6 +6,20 @@ open System.Text.RegularExpressions
 open System.Collections.Concurrent
 open System.Threading
 
+open Chiron
+
+type Params with
+    static member ToJson (x : Params) = 
+        json {
+            do! Json.write "Make" x.cam_maker
+            do! Json.write "Model" x.cam_model
+            do! Json.write "FocalLength" x.focal_len
+            do! Json.write "ApertureValue" x.aperture
+            do! Json.write "LensMake" x.lens_maker
+            do! Json.write "LensModel" x.lens_model
+            do! Json.write "Distance" x.distance
+        }
+
 module Tool = 
 
     let undistort (remap : float32[])  (img : Mat)  = 
@@ -21,8 +35,8 @@ module Tool =
         let cameraParameters = Exif.fileToParams filename
         let img = Cv2.ImRead filename
         let width,height = img.Size(1), img.Size(0)
-        let remap,_ = LensFun.createModifier db cameraParameters width height 
-        let outimg = undistort remap img
+        let lensInfo = LensFun.createModifier db cameraParameters width height 
+        let outimg = undistort lensInfo.remap.Value img
 
         Cv2.ImWrite(undistored, outimg) |> printfn "ok: %A"
 
@@ -34,21 +48,21 @@ module Tool =
         LensFun.downloadLensFunFromWheels app dbD
         let db = LensFun.initLf dbD
 
-        let mappers = ConcurrentDictionary<_,float32[]>()
+        let mappers = ConcurrentDictionary<_,LensFun.LensInfo>()
 
         let q = new BlockingCollection<_>(20)
         let w = new BlockingCollection<_>(20)
         let distorter () = 
-            for (sourceFile, img, remap, targetFile) in q.GetConsumingEnumerable() do 
+            for (sourceFile, img, info : LensFun.LensInfo, targetFile) in q.GetConsumingEnumerable() do 
                 try 
-                    let undistorted = undistort remap img
-                    w.Add((sourceFile, undistorted, targetFile))
+                    let undistorted = undistort info.remap.Value img
+                    w.Add((sourceFile, info, undistorted, targetFile))
                 with e -> 
                     printfn "failed to convert: %s" sourceFile
             
 
         let writer () =
-            for (sourceFile, img, targetFile) in w.GetConsumingEnumerable() do 
+            for (sourceFile, info, img, targetFile) in w.GetConsumingEnumerable() do 
                 if Cv2.ImWrite(targetFile,img) then
                     printfn "%s -> %s" sourceFile targetFile
                 else printfn "failed: %s" sourceFile
@@ -62,8 +76,8 @@ module Tool =
                     let mapper  = 
                         mappers.GetOrAdd(key, fun v -> 
                             let width,height = img.Size(1), img.Size(0)
-                            let remap,_ = LensFun.createModifier db p width height 
-                            remap
+                            let lensInfo = LensFun.createModifier db p width height 
+                            lensInfo
                         )
                     q.Add((s, img, mapper, d))
                 with e -> 

@@ -54,6 +54,31 @@ module Native =
             val Score : int
         end
 
+    [<StructLayout(LayoutKind.Sequential)>]
+    type lfLens =
+        struct
+            val maker_ptr : IntPtr
+            val model_ptr : IntPtr
+            val LensType : int
+            val mounts_ptr : IntPtr
+            val MinFocal : float32
+            val MaxFocal : float32
+            val MinAperture : float32
+            val MaxAperture : float32
+            val CropFactor : float32
+            val CenterX : float32
+            val CenterY : float32
+            val distortion_ptr : IntPtr
+            val calidTCA_ptr : IntPtr
+            val calibVignetting_ptr : IntPtr
+            val Score : int
+        end
+
+        with 
+            member x.Maker = Marshal.PtrToStringAnsi(x.maker_ptr)
+            member x.Model = Marshal.PtrToStringAnsi(x.model_ptr)
+            member x.Mounts = Marshal.PtrToStringAnsi(x.mounts_ptr)
+
     [<Literal>]
     let lib = "lensfun.dll"
     
@@ -146,6 +171,16 @@ module LensFun =
 
         db
 
+    type LensInfo = 
+        {
+            imageParams : Params
+            width    : int
+            height   : int
+            lensCam  : Native.lfCamera
+            lensLens : Native.lfLens
+            remap    : Option<float32[]>
+        }
+
     let createModifier (db : IntPtr) (p : Params) (width : int) (height : int)  =
         let cams = Native.lf_db_find_cameras(db, p.cam_maker, p.cam_model)
         if cams = IntPtr.Zero then failwith "could not find camera"
@@ -158,6 +193,7 @@ module LensFun =
         let lenses = Native.lf_db_find_lenses_hd(db, cam0ptr, p.lens_maker, p.lens_model, 0)
         if cams = IntPtr.Zero then failwith "could not find lens"
         let lens : IntPtr = NativeInt.read (nativeint lenses)
+        let lensValue : Native.lfLens = NativeInt.read lens
         
         let modifier = Native.lf_modifier_new(lens,cam.CropFactor,width,height)
         //let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U8, float32 p.focal_len, float32 p.aperture,float32 p.distance,0.0f,lfLensType.LF_RECTILINEAR,~~~0,false)
@@ -167,11 +203,18 @@ module LensFun =
         let remap = Array.zeroCreate (width * height * 2)
         let ok = Native.lf_modifier_apply_geometry_distortion(modifier,0.0f,0.0f,width,height,remap)
         if not ok then failwith "could not apply distortion"
-        remap, cam.Score
+        {
+            remap = Some remap
+            lensCam = cam
+            lensLens = lensValue
+            imageParams = p
+            width = width
+            height = height
+        }
   
 type Modifier(db : IntPtr, p : Params) = 
     let m = LensFun.createModifier db p
-    member x.ComputeMap(width : int, height: int) : float32[] * int = m width height
+    member x.ComputeMap(width : int, height: int) : LensFun.LensInfo = m width height
 
 type LensFun(dbDir : string) =
     let db = LensFun.initLf dbDir
