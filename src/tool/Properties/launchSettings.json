@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "lensfunNet-undist": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\work\\H5_105 IMG_%d.JPG IMG_%d_undist.JPG"
+    }
+  }
+}
