@@ -1,3 +1,5 @@
+### 0.0.8
+* added metadata
 ### 0.0.7
 * fixed race condition
 ### 0.0.6
