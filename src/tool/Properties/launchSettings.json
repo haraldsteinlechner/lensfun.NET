@@ -2,7 +2,7 @@
   "profiles": {
     "lensfunNet-undist": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\work\\H5_105 IMG_%d.JPG IMG_%d_undist.JPG"
+      "commandLineArgs": "C:\\Users\\hs\\Pictures\\H5_105 IMG_%d.JPG IMG_%d_undist.JPG"
     }
   }
 }

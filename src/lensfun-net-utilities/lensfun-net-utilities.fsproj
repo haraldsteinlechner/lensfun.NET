@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>lensfun_net_tools</RootNamespace>
-	<DisableImplicitFSharpCoreReference>True</DisableImplicitFSharpCoreReference>
+    <DisableImplicitFSharpCoreReference>True</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\bin\Debug\</OutputPath>
@@ -12,6 +12,8 @@
     <OutputPath>..\..\bin\Release</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
+    <Compile Include="MetaData.fs" />
     <Compile Include="Exif.fs" />
     <Compile Include="opencv.fs" />
   </ItemGroup>
