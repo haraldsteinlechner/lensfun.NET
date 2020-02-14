@@ -16,3 +16,4 @@ bin/Debug
 /.vs/lensfun-net/v16/*.suo
 /.vs/lensfun-net/DesignTimeBuild/*.dtbcache
 /bin/tools/netcoreapp3.1/any
+/src/Example/Properties/launchSettings.json
