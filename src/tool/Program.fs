@@ -10,6 +10,15 @@ open System.Threading
 
 module Tool = 
 
+    type Processed = 
+        {
+            inputFileName : string
+            info          : LensFun.ImageInfo
+            undistorted   : Mat
+            targetFile    : string
+            downsampled   : Option<Mat>
+        }
+
     let undistort (remap : float32[])  (img : Mat)  = 
         let size = img.Size()
         let remapMat = new Mat(size.Height, size.Width, MatType.CV_32FC2, remap)
@@ -44,23 +53,29 @@ module Tool =
             for (sourceFile, img, info : LensFun.ImageInfo, targetFile) in q.GetConsumingEnumerable() do 
                 try 
                     let undistorted = undistort info.remap.Value img
-                    w.Add((sourceFile, info, undistorted, targetFile))
+                    let thumbSize = Size(img.Size().Width / 4, img.Size().Height / 4)
+                    let thumb = new Mat(thumbSize, img.Type())
+                    let downsampled = Cv2.Resize(InputArray.Create undistorted, OutputArray.Create thumb, thumbSize)
+                    w.Add { inputFileName = sourceFile; info = info; undistorted = undistorted; targetFile = targetFile; downsampled = Some thumb }
                 with e -> 
                     printfn "failed to convert: %s" sourceFile
             
 
         let writer () =
-            for (sourceFile, info, img, targetFile) in w.GetConsumingEnumerable() do 
+            for d in w.GetConsumingEnumerable() do 
                 try
-                    if Cv2.ImWrite(targetFile,img) then
-                        let json = MetaData.toJson { imageInfo = info }
-                        let info = Path.ChangeExtension(targetFile,"json")
+                    if Cv2.ImWrite(d.targetFile,d.undistorted) then
+                        let json = MetaData.toJson { imageInfo = d.info }
+                        let info = Path.ChangeExtension(d.targetFile,"json")
                         File.WriteAllText(info,json)
                         let a = MetaData.fromJson json
-                        printfn "%s -> %s" sourceFile targetFile
-                    else printfn "failed to ImWrite: %s" sourceFile
+                        printfn "%s -> %s" d.inputFileName d.targetFile
+                        match d.downsampled with
+                            | Some s -> Cv2.ImWrite(Path.ChangeExtension(d.targetFile,"thumb.JPG"), s) |> ignore
+                            |_ -> ()
+                    else printfn "failed to ImWrite: %s" d.inputFileName
                 with e -> 
-                     printfn "failed to write: %s" sourceFile
+                     printfn "failed to write: %s" d.inputFileName
 
         let reader (files : seq<string*string>) =
             for (s,d) in files do   
