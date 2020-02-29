@@ -1,3 +1,5 @@
+### 0.0.9
+* fixed lensinfo struct alignment
 ### 0.0.8
 * added metadata
 ### 0.0.7
