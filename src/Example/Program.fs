@@ -20,6 +20,8 @@ let undistortJpg (filename : string) (undistored : string) =
     let lensInfo = LensFun.createModifier db cameraParameters width height 
     let outimg = undistort lensInfo.remap.Value img
 
+    let info = { MetaData.imageInfo = lensInfo } |> MetaData.toJson
+
     Cv2.ImWrite(undistored, outimg) |> printfn "ok: %A"
 
 
@@ -29,7 +31,7 @@ let main argv =
     LensFun.downloadLensFunFromWheels "." "./db_files"
 
 
-    undistortJpg @"img.jpg" @"img_undist.jpg"
+    undistortJpg @"C:\Users\hs\Pictures\H5_105.2\IMG_6975.JPG" @"img_undist.jpg"
 
     0
  

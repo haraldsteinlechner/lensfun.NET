@@ -59,25 +59,28 @@ module Native =
         struct
             val maker_ptr : IntPtr
             val model_ptr : IntPtr
-            val LensType : byte
-            val mounts_ptr : IntPtr
             val MinFocal : float32
             val MaxFocal : float32
             val MinAperture : float32
             val MaxAperture : float32
-            val CropFactor : float32
+            val mounts_ptr : IntPtr
+            //val LensType : int
             val CenterX : float32
             val CenterY : float32
+            val CropFactor : float32
+            val AspectRatio : float32
             val distortion_ptr : IntPtr
             val calidTCA_ptr : IntPtr
             val calibVignetting_ptr : IntPtr
+            val calibVignetting_ptr2 : IntPtr
+            val calibVignetting_ptr3 : IntPtr
             val Score : int
         end
 
         with 
             member x.Maker = Marshal.PtrToStringAnsi(x.maker_ptr)
             member x.Model = Marshal.PtrToStringAnsi(x.model_ptr)
-            member x.Mounts = ""// Marshal.PtrToStringAnsi(x.mounts_ptr)
+            member x.Mounts =  "" //Marshal.PtrToStringAnsi(Marshal.ReadIntPtr x.mounts_ptr)
 
     [<Literal>]
     let lib = "lensfun.dll"
