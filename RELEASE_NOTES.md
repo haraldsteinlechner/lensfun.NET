@@ -1,3 +1,5 @@
+### 0.0.10
+* fixed exif lens model getter. assumes empty if none instead of null
 ### 0.0.9
 * fixed lensinfo struct alignment
 ### 0.0.8
