@@ -31,7 +31,7 @@ let main argv =
     LensFun.downloadLensFunFromWheels "." "./db_files"
 
 
-    undistortJpg @"C:\Users\hs\Pictures\H5_105.2\IMG_6975.JPG" @"img_undist.jpg"
+    undistortJpg @"C:\Users\hs\OneDrive - Aardworx GmbH\fotofascade\Datensaetze Fotoaufnahmen\H6_50\IMG_5545.JPG" @"img_undist.jpg"
 
     0
  
