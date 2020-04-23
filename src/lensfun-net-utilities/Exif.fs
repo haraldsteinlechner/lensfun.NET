@@ -9,6 +9,7 @@ module Exif =
         let ok,cam_maker = reader.GetTagValue<string>(ExifTags.Make)
         if not ok then failwith "could not get make"
         let ok,cam_model = reader.GetTagValue<string>(ExifTags.Model)
+        let cam_model = if ok then cam_model else printfn "could not get lens model. leaving empty"; ""
         if not ok then failwith "could not get model"
         let ok,focal_len = reader.GetTagValue<float>(ExifTags.FocalLength)
         if not ok then failwith "could not get focal length"

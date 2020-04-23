@@ -215,6 +215,7 @@ module LensFun =
         let maker = Marshal.PtrToStringAnsi(cam.Maker)
         let model = Marshal.PtrToStringAnsi(cam.Model)
         let variant = Marshal.PtrToStringAnsi(cam.Variant)
+        let variant = if variant = null then "" else variant
         let mount =  Marshal.PtrToStringAnsi(cam.Mount)
         let lenses = Native.lf_db_find_lenses_hd(db, cam0ptr, p.lens_maker, p.lens_model, 0)
         if cams = IntPtr.Zero then failwith "could not find lens"

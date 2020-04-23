@@ -68,7 +68,7 @@ module MetaData =
         static member ToJson1 (e : Ext, x : LensFun.CameraInfo) = 
             json {
                 do! Json.write "Maker" x.Maker
-                do! Json.write "Model" x.Model
+                do! Json.write "Model" (x.Model = null then "" else x.Model)
                 do! Json.write "Mount" x.Mount
             }
         static member FromJson1(e : Ext, x : LensFun.CameraInfo) = 
