@@ -1,3 +1,6 @@
+### 0.0.13
+* fixed more null
+* fixed scale factor
 ### 0.0.12
 * fixed more null
 ### 0.0.11
