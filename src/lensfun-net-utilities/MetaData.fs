@@ -7,6 +7,18 @@ module MetaData =
 
     type Ext = Ext
 
+    module Json =
+        let writeNullable (name : string) (v : string) = 
+            if isNull v then Json.write name "null"
+            else Json.write name v
+
+        let inline readNullable (name : string) = 
+            json {
+                let! r = Json.read name
+                if r = "null" then return null
+                else return r
+            }
+
     module Ext =
         let inline fromJsonDefaults (a: ^a, _: ^b) =
             ((^a or ^b or ^e) : (static member FromJson1: ^e * ^a ->    ^a Json)(Unchecked.defaultof<_>,a))
@@ -23,22 +35,22 @@ module MetaData =
     type Ext with
         static member ToJson1 (e : Ext, x : Params) = 
             json {
-                do! Json.write "Make" x.cam_maker
-                do! Json.write "Model" x.cam_model
+                do! Json.writeNullable "Make" x.cam_maker
+                do! Json.writeNullable "Model" x.cam_model
                 do! Json.write "FocalLength" x.focal_len
                 do! Json.write "ApertureValue" x.aperture
-                do! Json.write "LensMake" x.lens_maker
-                do! Json.write "LensModel" x.lens_model
+                do! Json.writeNullable "LensMake" x.lens_maker
+                do! Json.writeNullable "LensModel" x.lens_model
                 do! Json.write "Distance" x.distance
             }
         static member FromJson1(e : Ext, _ : Params) =
             json {
-                let! make = Json.read "Make"
-                let! model = Json.read "Model"
+                let! make = Json.readNullable "Make"
+                let! model = Json.readNullable "Model"
                 let! focal = Json.read "FocalLength"
                 let! aperture = Json.read "ApertureValue"
-                let! lensMake = Json.read "LensMake"
-                let! lensModel = Json.read "LensModel"
+                let! lensMake = Json.readNullable "LensMake"
+                let! lensModel = Json.readNullable "LensModel"
                 let! distance = Json.read "Distance"
                 return 
                     {
@@ -53,8 +65,8 @@ module MetaData =
             }
         static member ToJson1 (e : Ext, x : LensFun.LensInfo) = 
             json {
-                do! Json.write "Maker" x.Maker
-                do! Json.write "Model" x.Model
+                do! Json.writeNullable "Maker" x.Maker
+                do! Json.writeNullable "Model" x.Model
                 do! Json.write "Type" x.LensType
                 do! Json.write "MinFocal" x.MinFocal
                 do! Json.write "MaxFocal" x.MaxFocal
@@ -67,15 +79,15 @@ module MetaData =
             }
         static member ToJson1 (e : Ext, x : LensFun.CameraInfo) = 
             json {
-                do! Json.write "Maker" x.Maker
-                do! Json.write "Model" x.Model
-                do! Json.write "Mount" x.Mount
+                do! Json.writeNullable "Maker" x.Maker
+                do! Json.writeNullable "Model" x.Model
+                do! Json.writeNullable "Mount" x.Mount
             }
         static member FromJson1(e : Ext, x : LensFun.CameraInfo) = 
             json {
-                let! make = Json.read "Maker"
-                let! model = Json.read "Model"
-                let! mount = Json.read "Mount"
+                let! make = Json.readNullable "Maker"
+                let! model = Json.readNullable "Model"
+                let! mount = Json.readNullable "Mount"
                 return  {
                     Maker = make
                     Model = model
@@ -86,8 +98,8 @@ module MetaData =
 
         static member FromJson1 (e : Ext, _ : LensFun.LensInfo) = 
             json {
-                let! maker = Json.read "Maker" 
-                let! model = Json.read "Model"
+                let! maker = Json.readNullable "Maker" 
+                let! model = Json.readNullable "Model"
                 let! t = Json.read "Type" 
                 let! minFocal = Json.read "MinFocal" 
                 let! maxFocal = Json.read "MaxFocal"

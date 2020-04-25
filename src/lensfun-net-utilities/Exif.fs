@@ -16,9 +16,7 @@ module Exif =
         let ok,aperture = reader.GetTagValue<float>(ExifTags.ApertureValue)
         if not ok then failwith "could not get aperture"
         let ok,lens_maker = reader.GetTagValue<string>(ExifTags.LensMake)
-        let lens_maker = if ok then lens_maker else cam_maker
         let ok,lens_model = reader.GetTagValue<string>(ExifTags.LensModel)
-        let lens_model = if ok then lens_model else printfn "could not get lens model. leaving empty"; ""
         if not ok then printfn "could not get lens model for: %A" filename
         {
             cam_maker  = cam_maker

@@ -108,11 +108,23 @@ module Native =
     extern IntPtr lf_modifier_new (IntPtr lens, float32 crop, int width, int height)
 
     [<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
+    extern IntPtr lf_modifier_create (IntPtr lens, float32 focal, float32 crop, int width, int heigh, lfPixelFormat format, bool reverse)
+
+    [<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
     extern int lf_modifier_initialize(IntPtr modifier, IntPtr lens, lfPixelFormat format, float32 focal, float32 aperture, float32 distance, float32 scale,lfLensType targeom, int flags, bool reverse)
     
     [<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
     extern bool lf_modifier_apply_geometry_distortion (
         IntPtr modifier, float32 xu, float32 yu, int width, int height, float32[] res)
+
+    [<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
+    extern IntPtr lf_modifier_enable_vignetting_correction (IntPtr modifier, float32 aperture, float32 distance)
+
+    //[<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
+    //extern int lf_modifier_enable_tca_correction(IntPtr modifier)
+
+    [<DllImport(lib, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)>]
+    extern int lf_modifier_enable_distortion_correction(IntPtr modifier)
 
 
 type Params = 
@@ -223,21 +235,24 @@ module LensFun =
         let lensValue : Native.lfLens = NativeInt.read lens
         
         let modifier = Native.lf_modifier_new(lens,cam.CropFactor,width,height)
-        let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U32, float32 p.focal_len, float32 p.aperture,float32 p.distance,0.0f,lfLensType.LF_RECTILINEAR,~~~0,false)
+        let work = Native.lf_modifier_initialize(modifier, lens, lfPixelFormat.LF_PF_U32, float32 p.focal_len, float32 p.aperture,float32 10.0,1.0f,lfLensType.LF_RECTILINEAR,-1,false)
+        //let modifier = Native.lf_modifier_create(lens, float32 p.focal_len, cam.CropFactor, width, height, lfPixelFormat.LF_PF_U32, false)
+        //Native.lf_modifier_enable_tca_correction(modifier)
+        //Native.lf_modifier_enable_vignetting_correction(modifier,float32 p.aperture,float32 10.0)
+        //Native.lf_modifier_enable_distortion_correction(modifier)
 
         let remap = Array.zeroCreate (width * height * 2)
         let ok = Native.lf_modifier_apply_geometry_distortion(modifier,0.0f,0.0f,width,height,remap)
 
 
-        let nullToEmpty (s : string) = if isNull s then "" else s
 
         if not ok then failwith "could not apply distortion"
         {
             remap = Some remap
             lensInfo = 
                 {
-                    Maker        = nullToEmpty lensValue.Maker
-                    Model        = nullToEmpty lensValue.Model
+                    Maker        = lensValue.Maker
+                    Model        = lensValue.Model
                     LensType     = 0
                     MinFocal     = lensValue.MinFocal
                     MaxFocal     = lensValue.MaxFocal
@@ -250,10 +265,10 @@ module LensFun =
                 }
             cameraInfo = 
                 {   
-                    Maker = nullToEmpty maker
-                    Model = nullToEmpty model
-                    Variant = nullToEmpty variant
-                    Mount = nullToEmpty mount
+                    Maker = maker
+                    Model = model
+                    Variant = variant
+                    Mount = mount
                 }
             imageParams = p
             width = width
