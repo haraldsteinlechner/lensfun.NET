@@ -1,3 +1,5 @@
+### 0.0.12
+* fixed more null
 ### 0.0.11
 * fixed more null
 ### 0.0.10

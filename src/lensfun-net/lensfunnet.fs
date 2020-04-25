@@ -227,13 +227,17 @@ module LensFun =
 
         let remap = Array.zeroCreate (width * height * 2)
         let ok = Native.lf_modifier_apply_geometry_distortion(modifier,0.0f,0.0f,width,height,remap)
+
+
+        let nullToEmpty (s : string) = if isNull s then "" else s
+
         if not ok then failwith "could not apply distortion"
         {
             remap = Some remap
             lensInfo = 
                 {
-                    Maker        = lensValue.Maker
-                    Model        = lensValue.Model
+                    Maker        = nullToEmpty lensValue.Maker
+                    Model        = nullToEmpty lensValue.Model
                     LensType     = 0
                     MinFocal     = lensValue.MinFocal
                     MaxFocal     = lensValue.MaxFocal
@@ -246,10 +250,10 @@ module LensFun =
                 }
             cameraInfo = 
                 {   
-                    Maker = maker
-                    Model = model
-                    Variant = variant
-                    Mount = mount
+                    Maker = nullToEmpty maker
+                    Model = nullToEmpty model
+                    Variant = nullToEmpty variant
+                    Mount = nullToEmpty mount
                 }
             imageParams = p
             width = width
